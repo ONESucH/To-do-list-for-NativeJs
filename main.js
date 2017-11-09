@@ -26,7 +26,7 @@ function activeTabs() {
         li.innerHTML = input.value;
         activeData.push(input.value);
         href[0].className = 'active';
-        location.hash = 'active';
+        location.hash = '#active';
         ul.appendChild(li);
         input.value = '';
         renderLi(li);
@@ -67,21 +67,22 @@ function renderLi(renderingList) {
 
 // отслеживаем hash
 function statusTarget(hash) {
+    console.log('hash', hash);
     switch (hash) {
         case '#active':
             clearActiveButton();
             href[0].className = 'active';
-            location.hash = 'active';
+            location.hash = '#active';
             break;
         case '#done':
             clearActiveButton();
             href[1].className = 'active';
-            location.hash = 'done';
+            location.hash = '#done';
             break;
         case '#remove':
             clearActiveButton();
             href[2].className = 'active';
-            location.hash = 'remove';
+            location.hash = '#remove';
             break;
     }
 

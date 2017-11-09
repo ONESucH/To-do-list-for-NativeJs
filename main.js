@@ -1,6 +1,6 @@
 /*
 
-    осталось отследить перемещение по массивам задания, хеш работает, стату по кнопкам передаётся, не рендерится список =)
+    осталось раскидать по массивам ТЗ
 
  */
 
@@ -37,28 +37,20 @@ function activeTabs() {
 function renderLi(renderingList) {
     if (!renderingList) return false;
 
-    var ul = document.getElementsByTagName('ul')[0];
-
     if (location.hash === '#active') {
         renderingList.onclick = function (item) {
-            ul.innerHTML = '';
-            statusTarget('#done');
             doneData.push(item.target.innerText);
             item.target.style.display = 'none';
         };
     }
     if (location.hash === '#done') {
         renderingList.onclick = function (item) {
-            ul.innerHTML = '';
-            statusTarget('#remove');
             removeData.push(item.target.innerText);
             item.target.style.display = 'none';
         };
     }
     if (location.hash === '#remove') {
         renderingList.onclick = function (item) {
-            ul.innerHTML = '';
-            statusTarget('#active');
             activeData.push(item.target.innerText);
             item.target.style.display = 'none';
         };
@@ -71,16 +63,19 @@ function statusTarget(hash) {
     switch (hash) {
         case '#active':
             clearActiveButton();
+            clearListsInPages();
             href[0].className = 'active';
             location.hash = '#active';
             break;
         case '#done':
             clearActiveButton();
+            clearListsInPages();
             href[1].className = 'active';
             location.hash = '#done';
             break;
         case '#remove':
             clearActiveButton();
+            clearListsInPages();
             href[2].className = 'active';
             location.hash = '#remove';
             break;
@@ -92,5 +87,17 @@ function statusTarget(hash) {
 function clearActiveButton() {
     for (var letter = 0; letter < href.length; letter++) {
         href[letter].classList.remove('active');
+    }
+}
+
+function clearListsInPages() {
+    var ul = document.getElementsByTagName('ul')[0],
+        deleteWork = ul.getElementsByTagName('li');
+
+    console.log('deleteWork', deleteWork);
+    console.log('ul', ul);
+
+    for (var letter = 0; letter < deleteWork.length; letter++) {
+        deleteWork[letter].style.display = 'none';
     }
 }

@@ -2,112 +2,142 @@ var activeData = [],
     doneData = [],
     removeData = [],
     href = document.getElementsByTagName('a'),
+    ul = document.getElementsByTagName('ul')[0],
     id = 0;
 
 // Получаем данные и записиваем их
 function activeTabs() {
-    test();
-    var input = document.getElementsByTagName('input')[0],
-        ul = document.getElementsByTagName('ul')[0],
-        li = document.createElement('li');
+    var input = document.getElementsByTagName('input')[0];
 
     if (input.value === '') {
         return false;
     } else {
-
         for (var letter = 0; letter < href.length; letter++) {
             href[letter].classList.remove('active');
         }
-
-        li.setAttribute('id', id);
-        li.innerHTML = input.value;
-        activeData.push(input.value);
         href[0].className = 'active';
         location.hash = '#active';
+        activeData.push(input.value);
+        renderLi();
         input.value = '';
-        ul.appendChild(li);
-        renderLi(li);
     }
-    id += 1;
 }
 
-// рендерим Li по статусу
-function renderLi(renderingList) {
+// рендерим задания по массивам и статусу
+function renderLi() {
+    var li = document.createElement('li');
 
-    if (!renderingList) return false;
-
-    var ul = document.getElementsByTagName('ul')[0];
+    li.className = 'list-active';
+    li.setAttribute('id', id);
 
     if (location.hash === '#active') {
-        console.log('Вошли в active');
-        renderingList.onclick = function (item) {
+        activeData.forEach(function (t) {
+            li.innerHTML = t;
+        });
+        li.onclick = function (item) {
             doneData.push(item.target.innerText);
             delete activeData[item.target.id];
             ul.removeChild(item.target);
         };
     }
     if (location.hash === '#done') {
-        console.log('Вошли в done');
-        renderingList.onclick = function (item) {
+        doneData.forEach(function (t) {
+            li.innerHTML = t;
+        });
+        li.onclick = function (item) {
             removeData.push(item.target.innerText);
             delete doneData[item.target.id];
             ul.removeChild(item.target);
         };
     }
     if (location.hash === '#remove') {
-        console.log('Вошли в remove');
-        renderingList.onclick = function (item) {
+        removeData.forEach(function (t) {
+            li.innerHTML = t;
+        });
+        li.onclick = function (item) {
             activeData.push(item.target.innerText);
             delete removeData[item.target.id];
             ul.removeChild(item.target);
         };
     }
+    id += 1;
+    ul.appendChild(li);
 }
 
-// отслеживаем hash
+// отслеживаем hash и кнопки нажатия (target)
 function statusTarget(hash) {
     switch (hash) {
         case '#active':
             clearActiveButton();
-            clearListsInPages();
-            expandTheArray(activeData); // данные которые будут отображаться в нужном hash
-            href[0].className = 'active';
-            location.hash = '#active';
+            activeList();
+            href[0].className = 'active'; // присваиваем стиль
+            location.hash = '#active'; // new hash
             break;
         case '#done':
             clearActiveButton();
-            clearListsInPages();
-            expandTheArray(doneData); // данные которые будут отображаться в нужном hash
-            href[1].className = 'active';
-            location.hash = '#done';
+            doneList();
+            href[1].className = 'active'; // присваиваем стиль
+            location.hash = '#done'; // new hash
             break;
         case '#remove':
             clearActiveButton();
-            clearListsInPages();
-            expandTheArray(removeData); // данные которые будут отображаться в нужном hash
-            href[2].className = 'active';
-            location.hash = '#remove';
+            removeList();
+            href[2].className = 'active'; // присваиваем стиль
+            location.hash = '#remove'; // new hash
             break;
     }
 }
 
-/* Получаем массив и вставляем его по hash */
-function expandTheArray(arr) {
-    var ul = document.getElementsByTagName('ul')[0];
+/* Очищаем списки */
+function activeList() {
+    ul.innerHTML = '';
 
-    for (var letter = 0; letter < arr.length; letter++) {
-        var li = document.createElement('li');
-
-        li.setAttribute('id', id);
-
-        if (typeof arr[letter] === 'undefined') {
-            return false
-        } else {
-            li.innerHTML = arr[letter];
-            renderLi(li);
-            ul.appendChild(li);
+    activeData.forEach(function (item, i) { // i - id
+        var generateLi =  document.createElement('li');   /*  Отслеживаем события для "Активных" ТЗ  */
+        generateLi.setAttribute('id', i);
+        generateLi.innerText = item;
+        generateLi.className = 'list-active';
+        ul.appendChild(generateLi);
+        generateLi.onclick = function (item) {
+            doneData.push(item.target.innerText);
+            delete activeData[item.target.id];
+            ul.removeChild(item.target);
         }
-    }
+    });
+}
+
+function doneList() {
+    ul.innerHTML = '';
+
+    doneData.forEach(function (item, i) { // i - id
+        var generateLi =  document.createElement('li');   /*  Отслеживаем события для "Выполненных" ТЗ  */
+        generateLi.setAttribute('id', i);
+        generateLi.innerText = item;
+        generateLi.className = 'list-done';
+        ul.appendChild(generateLi);
+        generateLi.onclick = function (item) {
+            removeData.push(item.target.innerText);
+            delete doneData[item.target.id];
+            ul.removeChild(item.target);
+        };
+    });
+}
+
+function removeList() {
+    ul.innerHTML = '';
+
+    removeData.forEach(function (item, i) { // i - id
+        var generateLi =  document.createElement('li');   /*  Отслеживаем события для "Удалённых" ТЗ  */
+        generateLi.setAttribute('id', i);
+        generateLi.innerText = item;
+        generateLi.className = 'list-remove';
+        ul.appendChild(generateLi);
+        generateLi.onclick = function (item) {
+            activeData.push(item.target.innerText);
+            delete removeData[item.target.id];
+            ul.removeChild(item.target);
+        };
+    });
 }
 
 /* Статус кнопок */
@@ -115,20 +145,4 @@ function clearActiveButton() {
     for (var letter = 0; letter < href.length; letter++) {
         href[letter].classList.remove('active');
     }
-}
-
-/* Очищаем лист при каждом нажатии на "статус" */
-function clearListsInPages() {
-    var ul = document.getElementsByTagName('ul')[0],
-        deleteWork = ul.getElementsByTagName('li');
-
-    for (var letter = 0; letter < deleteWork.length; letter++) {
-        ul.removeChild(deleteWork[letter]);
-    }
-}
-
-function test() {
-    console.log('activeData', activeData);
-    console.log('doneData', doneData);
-    console.log('removeData', removeData);
 }

@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>lesson-4</title>
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
     <style>
         body {
             background: silver;
@@ -52,7 +53,11 @@
             list-style: none;
         }
         li {
-            width: 100%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+            width: auto;
             padding: 10px 15px;
             text-align: left;
             border: 1px solid rgba(0, 0, 0, 0.51);
@@ -60,14 +65,32 @@
             border-radius: 4px;
             cursor: pointer;
             color: #fff;
-            background: #1e807e;
         }
-        li:hover {
-            text-shadow: 0 0 2px white;
+        i {
+            font-size: 24px!important;
         }
         .active {
             text-shadow: 0 0 2px white;
             border: 1px solid rgb(255, 59, 6);
+        }
+        .list-active {
+             background: #1e807e;
+         }
+        .list-active:hover {
+            text-shadow: 0 0 2px white;
+        }
+        .list-done {
+            color: black;
+            background: rgba(255, 232, 14, 0.71);
+        }
+        .list-done:hover {
+            text-shadow: 0 0 2px #1d98ff;
+        }
+        .list-remove {
+            background: rgba(255, 35, 13, 0.71);
+        }
+        .list-remove:hover {
+            text-shadow: 0 0 2px white;
         }
     </style>
 </head>
@@ -78,9 +101,9 @@
         <button onclick="activeTabs();">Отправить</button>
     </div>
     <div>
-        <a href="#active" onclick="statusTarget('active');">active</a>
-        <a href="#done" onclick="statusTarget('done');">done</a>
-        <a href="#remove" onclick="statusTarget('remove');">remove</a>
+        <a href="#active" onclick="statusTarget('#active');">active</a>
+        <a href="#done" onclick="statusTarget('#done');">done</a>
+        <a href="#remove" onclick="statusTarget('#remove');">remove</a>
     </div>
     <ul></ul>
 </div>

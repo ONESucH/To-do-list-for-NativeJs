@@ -1,6 +1,6 @@
 /*
 
-    осталось раскидать по массивам ТЗ
+    Находим нужный элемент и удаляем из массива
 
  */
 
@@ -64,24 +64,40 @@ function statusTarget(hash) {
         case '#active':
             clearActiveButton();
             clearListsInPages();
+            expandTheArray(activeData);
             href[0].className = 'active';
             location.hash = '#active';
             break;
         case '#done':
             clearActiveButton();
             clearListsInPages();
+            expandTheArray(doneData);
             href[1].className = 'active';
             location.hash = '#done';
             break;
         case '#remove':
             clearActiveButton();
             clearListsInPages();
+            expandTheArray(removeData);
             href[2].className = 'active';
             location.hash = '#remove';
             break;
     }
 
     renderLi();
+}
+
+function expandTheArray(arr) {
+    var ul = document.getElementsByTagName('ul')[0];
+
+    for (var letter = 0; letter < arr.length; letter++) {
+        var li = document.createElement('li');
+
+        li.innerHTML = arr[letter];
+
+        renderLi(li);
+        ul.appendChild(li);
+    }
 }
 
 function clearActiveButton() {
@@ -93,9 +109,6 @@ function clearActiveButton() {
 function clearListsInPages() {
     var ul = document.getElementsByTagName('ul')[0],
         deleteWork = ul.getElementsByTagName('li');
-
-    console.log('deleteWork', deleteWork);
-    console.log('ul', ul);
 
     for (var letter = 0; letter < deleteWork.length; letter++) {
         deleteWork[letter].style.display = 'none';

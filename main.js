@@ -93,7 +93,8 @@ function activeList() {
     ul.innerHTML = '';
 
     activeData.forEach(function (item, i) { // i - id
-        var generateLi =  document.createElement('li');   /*  Отслеживаем события для "Активных" ТЗ  */
+        var generateLi = document.createElement('li');
+        /*  Отслеживаем события для "Активных" ТЗ  */
         generateLi.setAttribute('id', i);
         generateLi.innerText = item;
         generateLi.className = 'list-active';
@@ -110,7 +111,8 @@ function doneList() {
     ul.innerHTML = '';
 
     doneData.forEach(function (item, i) { // i - id
-        var generateLi =  document.createElement('li');   /*  Отслеживаем события для "Выполненных" ТЗ  */
+        var generateLi = document.createElement('li');
+        /*  Отслеживаем события для "Выполненных" ТЗ  */
         generateLi.setAttribute('id', i);
         generateLi.innerText = item;
         generateLi.className = 'list-done';
@@ -127,7 +129,8 @@ function removeList() {
     ul.innerHTML = '';
 
     removeData.forEach(function (item, i) { // i - id
-        var generateLi =  document.createElement('li');   /*  Отслеживаем события для "Удалённых" ТЗ  */
+        var generateLi = document.createElement('li');
+        /*  Отслеживаем события для "Удалённых" ТЗ  */
         generateLi.setAttribute('id', i);
         generateLi.innerText = item;
         generateLi.className = 'list-remove';
